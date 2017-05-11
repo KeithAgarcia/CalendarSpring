@@ -40,10 +40,10 @@ public class CalendarSpringController {
     }
 
     @RequestMapping(path = "/create-event", method = RequestMethod.POST)
-    public String createEvent(HttpSession session, String description, String startDateTime) {
+    public String createEvent(HttpSession session, String description, String startDateTime, String endDateTime) {
         String userName = (String) session.getAttribute("userName");
         if (userName != null) {
-            Event event = new Event(description, LocalDateTime.parse(startDateTime), users.findFirstByName(userName));
+            Event event = new Event(description, LocalDateTime.parse(startDateTime), LocalDateTime.parse(endDateTime), users.findFirstByName(userName));
             events.save(event);
         }
         return "redirect:/";
