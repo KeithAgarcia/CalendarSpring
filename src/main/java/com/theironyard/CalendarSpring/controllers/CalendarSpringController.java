@@ -53,10 +53,9 @@ public class CalendarSpringController {
             // we can’t save this new event.
             List<Event> collidingStartTimes = events.findAllByStartDateTimeBetween(LocalDateTime.parse(startDateTime), LocalDateTime.parse(endDateTime));
             List<Event> collidingEndTimes = events.findAllByEndDateTimeBetween(LocalDateTime.parse(startDateTime), LocalDateTime.parse(endDateTime));
-
-
-
-            events.save(event);
+            if((collidingStartTimes.size() <= 0 || collidingEndTimes.size() <= 0)) {
+                events.save(event);
+            }
         }
         return "redirect:/";
     }
