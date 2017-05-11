@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{^user}}
+<form action="/login" method="post">
+    <input type="text" placeholder="Enter your name" name="name"/>
+    <button type="submit">Login</button>
+</form>
+{{/user}}
+
+{{#user}}
+Welcome, {{name}}!<br>
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+<form action="/create-event" method="post">
+    <input type="text" placeholder="Description" name="description" size="50"/>
+    Start time
+    <input type="datetime-local" name="startDateTime" value="{{now}}"/>
+    End Time
+    <input type="datetime-local" name="endDateTime" value="{{now}}"/>
+    <button type="submit">Add Event</button>
+
+</form>
+{{/user}}
+
+{{#events}}
+{{description}} {{dateTime}}<br>
+{{/events}}
+</body>
+</html>
