@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
 </head>
 <body>
 {{^user}}
@@ -28,18 +41,40 @@ Welcome, {{name}}!<br>
 
 </form>
 <br><br>
-Here are your events:
+<th>Here are your events:</th>
 <br>
-{{#userEvents}}
-{{description}} Event Starts at: {{startDateTime}}      Event Ends at:     {{endDateTime}}<br>
+<ol>
+<table>
+<th>Description</th>
+<th>Start Time</th>
+<th>End Time</th>
+    {{#userEvents}}
+<tr>
+    <td>{{description}} </td>
+    <td>{{startDateTime}}</td>
+    <td>{{endDateTime}}</td>
+</tr>
 {{/userEvents}}
 {{/user}}
+</table>
+</ol>
 <br>
 <br>
-Here's everyone's event:
+<th>Here's everyone's event:</th>
 <br>
-{{#events}}
-{{description}} Event Starts at: {{startDateTime}}      Event Ends at:     {{endDateTime}}<br>
-{{/events}}
+<ol>
+    <table>
+        <th>Description</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        {{#events}}
+        <tr>
+            <td>{{description}} </td>
+            <td>{{startDateTime}}</td>
+            <td>{{endDateTime}}</td>
+        </tr>
+        {{/events}}
+    </table>
+</ol>
 </body>
 </html>

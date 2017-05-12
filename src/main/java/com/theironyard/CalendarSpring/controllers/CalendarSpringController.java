@@ -53,9 +53,11 @@ public class CalendarSpringController {
             List<Event> collidingEndTimes = events.findAllByEndDateTimeBetween(LocalDateTime.parse(startDateTime), LocalDateTime.parse(endDateTime));
             LocalDateTime currentTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
             LocalDateTime startTime = LocalDateTime.parse(startDateTime);
+            LocalDateTime endTime = LocalDateTime.parse(endDateTime);
 
             if(collidingStartTimes.size() == 0 && collidingEndTimes.size() == 0) {
                 if (startTime.isAfter(currentTime)) {
+                    if(endTime.isAfter(startTime))
                     events.save(event);
                 }
             }
