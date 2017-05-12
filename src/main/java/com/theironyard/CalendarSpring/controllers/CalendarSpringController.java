@@ -31,10 +31,11 @@ public class CalendarSpringController {
         String userName = (String) session.getAttribute("userName");
         List<Event> eventEntities = events.findAllByOrderByStartDateTimeDesc();
         if (userName != null) {
-            User user = users.findFirstByName(userName);
+            User user = users.findAllByName(userName);
             model.addAttribute("user", user);
             model.addAttribute("now", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         }
+
         model.addAttribute("events", eventEntities);
         return "home";
     }
@@ -43,7 +44,7 @@ public class CalendarSpringController {
     public String createEvent(HttpSession session, String description, String startDateTime, String endDateTime) {
         String userName = (String) session.getAttribute("userName");
         if (userName != null) {
-            Event event = new Event(description, LocalDateTime.parse(startDateTime), LocalDateTime.parse(endDateTime), users.findFirstByName(userName));
+            Event event = new Event(description, LocalDateTime.parse(startDateTime), LocalDateTime.parse(endDateTime), users.findAllByName(userName));
             // our goal is to make sure there are NO events
             //   where the start time is between the NEW event’s start and end times
             // AND where the end time is between the NEW event’s start and end times.
@@ -67,7 +68,7 @@ public class CalendarSpringController {
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public String login(HttpSession session, String name) {
-        User user = users.findFirstByName(name);
+        User user = users.findAllByName(name);
         if (user == null) {
             user = new User(name);
             users.save(user);
