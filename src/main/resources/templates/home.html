@@ -29,13 +29,15 @@ Welcome, {{name}}!<br>
 </form>
 <br><br>
 Here are your events:
-{{#events}}
+<br>
+{{#userEvents}}
 {{description}} Event Starts at: {{startDateTime}}      Event Ends at:     {{endDateTime}}<br>
-{{/events}}
+{{/userEvents}}
 {{/user}}
 <br>
 <br>
 Here's everyone's event:
+<br>
 {{#events}}
 {{description}} Event Starts at: {{startDateTime}}      Event Ends at:     {{endDateTime}}<br>
 {{/events}}

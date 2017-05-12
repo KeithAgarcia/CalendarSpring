@@ -30,12 +30,15 @@ public class CalendarSpringController {
     public String home(Model model, HttpSession session) {
         String userName = (String) session.getAttribute("userName");
         List<Event> eventEntities = events.findAllByOrderByStartDateTimeDesc();
+        List<Event> userEvents;
+
         if (userName != null) {
             User user = users.findAllByName(userName);
             model.addAttribute("user", user);
             model.addAttribute("now", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+            userEvents = events.findAllByUser(user);
+            model.addAttribute("userEvents",userEvents);
         }
-
         model.addAttribute("events", eventEntities);
         return "home";
     }
@@ -45,13 +48,7 @@ public class CalendarSpringController {
         String userName = (String) session.getAttribute("userName");
         if (userName != null) {
             Event event = new Event(description, LocalDateTime.parse(startDateTime), LocalDateTime.parse(endDateTime), users.findAllByName(userName));
-            // our goal is to make sure there are NO events
-            //   where the start time is between the NEW event’s start and end times
-            // AND where the end time is between the NEW event’s start and end times.
 
-            // if the length of collidingStartTimes is greater than 0 OR
-            // the length of collidingEndTimes is greater than 0
-            // we can’t save this new event.
             List<Event> collidingStartTimes = events.findAllByStartDateTimeBetween(LocalDateTime.parse(startDateTime), LocalDateTime.parse(endDateTime));
             List<Event> collidingEndTimes = events.findAllByEndDateTimeBetween(LocalDateTime.parse(startDateTime), LocalDateTime.parse(endDateTime));
             LocalDateTime currentTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
